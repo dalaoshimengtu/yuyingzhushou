@@ -920,7 +920,8 @@ class DrawingEngine:
 
     def _select_shape(self, shape_type: Optional[str] = None, shape_id: Optional[int] = None) -> None:
         if shape_id:
-            targets = self._find_shape_by_id(shape_id)
+            shape = self._find_shape_by_id(shape_id)
+            targets = [shape] if shape else []
         else:
             targets = self._find_shapes_by_type(shape_type)
         if not targets:

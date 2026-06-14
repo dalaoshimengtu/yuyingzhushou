@@ -152,4 +152,6 @@ FunASR 中文识别业界领先，程序内置了同音词纠正（40+组）、�
 - [Ollama](https://ollama.com) - 本地大模型运行框架
 - [Qwen](https://github.com/QwenLM/Qwen) - 通义千问大模型
 ```
+通过网盘分享的文件：QQ20260614-142008.mp4
+链接: https://pan.baidu.com/s/195mZGLMOCWDj_Efktlbu1Q 提取码: 1111
 

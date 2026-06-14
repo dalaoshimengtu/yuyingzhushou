@@ -715,7 +715,12 @@ class DrawingEngine:
                 self.canvas.move(new_cid, 20, 20)
                 new_ids.append(new_cid)
             new_props = dict(shape.props)
-            self.shapes.append(DrawingShape(shape.shape_type, new_ids, new_props))
+            ds = DrawingShape(shape.shape_type, new_ids, new_props)
+            self._assign_shape_id(ds)
+            self.shapes.append(ds)
+            self._add_label(ds)
+            layer = ShapeLayer(ds.shape_id, shape.shape_type, new_ids, new_props)
+            self.layers.append(layer)
         self.set_status("已复制图形")
 
     # ---- 操作方法 ----

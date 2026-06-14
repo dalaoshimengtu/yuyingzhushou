@@ -283,19 +283,21 @@ class DrawingEngine:
                     ds = DrawingShape(layer.shape_type, layer.canvas_ids, layer.props)
                     ds.shape_id = layer.shape_id
                     self.shapes.append(ds)
+                    if self._labels_visible:
+                        self._add_label(ds)
+            # 恢复 _next_shape_id，避免 undo 后绘制新图形时 ID 冲突
+            if self.layers:
+                self._next_shape_id = max(layer.shape_id for layer in self.layers) + 1
+            else:
+                self._next_shape_id = 1
 
     def undo(self) -> None:
         if not self.history:
             self.set_status("没有可撤销的操作")
             return
 
-        current_state = []
-        for s in self.shapes:
-            current_state.append({
-                "shape_type": s.shape_type,
-                "canvas_ids": list(s.canvas_ids),
-                "props": dict(s.props),
-            })
+        # 将当前 layers 完整状态压入 redo_stack，格式与 history 一致
+        current_state = [layer.to_dict() for layer in self.layers]
         self.redo_stack.append(current_state)
 
         self.history.pop()

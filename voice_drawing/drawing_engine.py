@@ -715,7 +715,12 @@ class DrawingEngine:
                 self.canvas.move(new_cid, 20, 20)
                 new_ids.append(new_cid)
             new_props = dict(shape.props)
-            self.shapes.append(DrawingShape(shape.shape_type, new_ids, new_props))
+            ds = DrawingShape(shape.shape_type, new_ids, new_props)
+            self._assign_shape_id(ds)
+            self.shapes.append(ds)
+            self._add_label(ds)
+            layer = ShapeLayer(ds.shape_id, shape.shape_type, new_ids, new_props)
+            self.layers.append(layer)
         self.set_status("已复制图形")
 
     # ---- 操作方法 ----
@@ -920,7 +925,8 @@ class DrawingEngine:
 
     def _select_shape(self, shape_type: Optional[str] = None, shape_id: Optional[int] = None) -> None:
         if shape_id:
-            targets = self._find_shape_by_id(shape_id)
+            shape = self._find_shape_by_id(shape_id)
+            targets = [shape] if shape else []
         else:
             targets = self._find_shapes_by_type(shape_type)
         if not targets:

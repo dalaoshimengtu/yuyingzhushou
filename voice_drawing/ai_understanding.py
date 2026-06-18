@@ -536,6 +536,8 @@ class AIUnderstander:
             elif self._match_any(text, ["右", "右侧"]):
                 direction = "right"
             nums = self._extract_numbers(text)
+            # 过滤掉 shape_id 本身，避免取到图形编号作为距离
+            nums = [n for n in nums if int(n) != shape_id]
             distance = nums[0] if nums else 30
             return {"type": "modify_by_id", "shape_id": shape_id, "mod_action": "move", "direction": direction, "distance": distance}
 
